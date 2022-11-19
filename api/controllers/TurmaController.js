@@ -1,4 +1,4 @@
-const database = require('../models')
+const database = require('../models');
 
 class TurmaController {
   static async pegaTodasAsTurmas(req, res){
@@ -59,4 +59,4 @@ class TurmaController {
 
 }
 
-module.exports = TurmaController
+module.exports = TurmaController;

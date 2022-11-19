@@ -1,4 +1,4 @@
-const database = require('../models')
+const database = require('../models');
 
 class NivelController {
   static async pegaTodosOsNiveis(req, res){
@@ -59,4 +59,4 @@ class NivelController {
 
 }
 
-module.exports = NivelController
+module.exports = NivelController;
