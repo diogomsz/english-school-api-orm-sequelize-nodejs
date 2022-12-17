@@ -143,9 +143,7 @@ class PessoaController {
 
         try {
             await database.Matriculas.destroy({ 
-                where: { 
-                    id: Number(matriculaId), 
-                    estudante_id: Number(estudanteId) } 
+                where: { id: Number(matriculaId), estudante_id: Number(estudanteId) } 
             });
 
             return res.status(200).json({ message: `id ${matriculaId} deletado` });
@@ -159,7 +157,6 @@ class PessoaController {
 
         try {
             const pessoa = await database.Pessoas.findOne({ where: { id: Number(estudanteId) } });
-
             const matriculas = await pessoa.getAulasMatriculadas();
 
             return res.status(200).json(matriculas);
@@ -173,14 +170,24 @@ class PessoaController {
 
         try {
             const todasAsMatriculas = await database.Matriculas.findAndCountAll({ 
-                where: { 
-                    turma_id: Number(turmaId), 
-                    status: 'confirmado' 
-                },
+                where: { turma_id: Number(turmaId), status: 'confirmado' },
                 limit: 1,
                 order: [['estudante_id', 'DESC']]
             });
             return res.status(200).json(todasAsMatriculas);
+        } catch(error) {
+            return res.status(500).json(error.message);
+        }
+    }
+
+    static async pegaTurmasLotadas(req, res) {
+        try {
+            const lotadas = await database.Matriculas.findAndCountAll({ 
+                where: { status: 'confirmado' },
+                group: ['turma_id'],
+                having: Sequelize.literal('count(turma_id) >= 2')
+            });
+            return res.status(200).json(lotadas);
         } catch(error) {
             return res.status(500).json(error.message);
         }
