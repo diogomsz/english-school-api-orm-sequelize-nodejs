@@ -6,43 +6,22 @@ class Services {
     }
 
     async pegaTodosOsRegistros() {
-        try {
-            return await database[this.nomeDoModelo].findAll();
-        } catch (error) {
-            return error.message;
-        }
-    }
-    async pegaUmRegistro(id) {
-        try {
-
-        } catch(error) {
-            return error.message;
-        }
+        return await database[this.nomeDoModelo].findAll();
     }
 
-    async criaRegistro(dados) {
-        try {
+    async pegaUmRegistro(id) {}
 
-        } catch(error) {
-            return error.message;
-        }
+    async criaRegistro(dados) {}
+
+    async atualizaRegistro(dadosAtualizados, id, transacao = {}) {
+        return database[this.nomeDoModelo].update(dadosAtualizados, { where: { id: Number(id) } }, transacao);
     }
 
-    async atualizaRegistro(dadosAtualizados, id) {
-        try {
-
-        } catch(error) {
-            return error.message;
-        }
+    async atualizaRegistros(dadosAtualizados, where, transacao = {}) {
+        return database[this.nomeDoModelo].update(dadosAtualizados, { where: { ...where } }, transacao);
     }
 
-    async apagaRegistro(id) {
-        try {
-
-        } catch(error) {
-            return error.message;
-        }
-    }
+    async apagaRegistro(id) {}
 }
 
 module.exports = Services;
