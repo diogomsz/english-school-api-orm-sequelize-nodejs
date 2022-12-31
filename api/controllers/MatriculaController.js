@@ -44,7 +44,7 @@ class MatriculaController {
         const { turmaId } = req.params;
 
         try {
-            const todasAsMatriculas = await matriculasServices.pegaTodosOsRegistrosEConte( { where: { turma_id: Number(turmaId), status: 'confirmado' }, limit: 20, order: [['estudante_id', 'DESC']] });
+            const todasAsMatriculas = await matriculasServices.encontraEContaRegistros( { where: { turma_id: Number(turmaId), status: 'confirmado' }, limit: 20, order: [['estudante_id', 'DESC']] });
             return res.status(200).json(todasAsMatriculas);
         } catch(error) {
             return res.status(500).json(error.message);
@@ -55,7 +55,7 @@ class MatriculaController {
         const lotacaoTurma = 2;
 
         try {
-            const turmasLotadas = await matriculasServices.pegaTodosOsRegistrosEConte({ where: { status: 'confirmado' }, attributes: ['turma_id'], group: ['turma_id'], having: Sequelize.literal(`count(turma_id) >= ${lotacaoTurma}`) });
+            const turmasLotadas = await matriculasServices.encontraEContaRegistros({ where: { status: 'confirmado' }, attributes: ['turma_id'], group: ['turma_id'], having: Sequelize.literal(`count(turma_id) >= ${lotacaoTurma}`) });
             return res.status(200).json(turmasLotadas.count);
         } catch(error) {
             return res.status(500).json(error.message);
