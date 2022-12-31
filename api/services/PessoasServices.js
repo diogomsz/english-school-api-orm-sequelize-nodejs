@@ -15,11 +15,15 @@ class PessoasServices extends Services {
         return await database[this.nomeDoModelo].scope('todos').findAll({  where: { ...where } });
     }
     
-    async cancelaPessoaEMatriculas(estudanteId) {
+    async cancelaPessoaEMatriculas(id) {
         return database.sequelize.transaction(async transacao => {
-            await super.atualizaRegistro({ ativo: false }, estudanteId, { transaction: transacao });
+            await super.atualizaRegistro({ ativo: false }, id, { transaction: transacao });
             await this.matriculas.atualizaRegistros({ status: 'cancelado' }, { estudante_id: estudanteId }, { transaction: transacao });
         });
+    }
+
+    async restauraRegistro(id) {
+        return await database[this.nomeDoModelo].restore({ where: { id: Number(id) } });
     }
 
     // métodos específicos do controlador de Pessoas
