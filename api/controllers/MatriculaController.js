@@ -32,7 +32,7 @@ class MatriculaController {
         const novasInfos = req.body;
 
         try {
-            await matriculasServices.atualizaRegistro(novasInfos, { where: { id: Number(matriculaId), estudante_id: Number(estudanteId) } });
+            await matriculasServices.atualizaRegistros(novasInfos, { where: { id: Number(matriculaId), estudante_id: Number(estudanteId) } });
             const matriculaAtualizada = await matriculasServices.pegaUmRegistro(matriculaId);
             return res.status(200).json(matriculaAtualizada);
         } catch(error) {
